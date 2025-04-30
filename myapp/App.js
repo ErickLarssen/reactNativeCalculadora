@@ -1,52 +1,87 @@
 import { useState } from "react";
 import { AppRegistry } from "react-native";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { ScrollView } from "react-native-web";
 
 export default function App(){
     const [primeiroNumero, setPrimeiroNumero] = useState(0);
     const [segundoNumero, setSegundoNumero]   = useState(0);
     const [resultado, setResultado]           = useState(0);
 
+    function somar(){
+        setResultado(parseFloat(primeiroNumero) + parseFloat(segundoNumero));
+        return setResultado;       
+    }//Fim do 'somar'
+
+    function subtrair(){
+        setResultado(parseFloat(primeiroNumero) - parseFloat(segundoNumero));
+        return setResultado;       
+    }//Fim do 'subtrair'
+
+    function dividir(){
+        if(parseFloat(segundoNumero) <= 0){
+            setResultado("Impossível dividir por 0 (zero).");
+        }else{
+            setResultado(parseFloat(primeiroNumero) / parseFloat(segundoNumero));
+        }
+        return setResultado;       
+    }//Fim do 'dividir'
+
+    function multiplicar(){
+        setResultado(parseFloat(primeiroNumero) * parseFloat(segundoNumero));
+        return setResultado;       
+    }//Fim do 'multiplicar'
+
+    function limpar(){
+        setPrimeiroNumero(0);
+        setSegundoNumero(0);
+        setResultado(0);
+    }//Fim do 'limpar'
+
     return(
         <View style={styles.tela}>
             <Text style={styles.tituloPrograma}>Calculadora</Text>
+
+            <ScrollView>
         
             <View style={styles.primeiroCampo}>
-                <TextInput style={styles.input} placeholder="Informe um número: "/>
+                <TextInput style={styles.input} value={primeiroNumero} onChangeText={novoNumero => setPrimeiroNumero(novoNumero)} placeholder="Informe um número: "/>
             </View>
 
             <View style={styles.segundoCampo}>
-                <TextInput style={styles.input} placeholder="Informe outro número: "/>
+                <TextInput style={styles.input} value={segundoNumero} onChangeText={novoNumero => setSegundoNumero(novoNumero)} placeholder="Informe outro número: "/>
             </View>
             
             <View style={styles.areaBotoes}>
-                <TouchableOpacity style={styles.botao}>
-                    <Text>Somar</Text>
+                <TouchableOpacity style={styles.botao} onPress={somar}>
+                    <Text style={styles.texto}>Somar</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.botao}>
-                    <Text>Subtrair</Text>
+                <TouchableOpacity style={styles.botao} onPress={subtrair}>
+                    <Text style={styles.texto}>Subtrair</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.areaBotoes}>
-                <TouchableOpacity style={styles.botao}>
-                    <Text>Dividir</Text>
+                <TouchableOpacity style={styles.botao} onPress={dividir}>
+                    <Text style={styles.texto}>Dividir</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.botao}>
-                    <Text>Multiplicar</Text>
+                <TouchableOpacity style={styles.botao} onPress={multiplicar}>
+                    <Text style={styles.texto}>Multiplicar</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.areaBotoes}>
-                <TouchableOpacity style={styles.botao}>
-                    <Text>Limpar</Text>
+            <View style={styles.areaLimpar}>
+                <TouchableOpacity style={styles.botao} onPress={limpar}>
+                    <Text style={styles.texto}>Limpar</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.areaResultado}>
                 <Text style={styles.textoResultado}>{resultado}</Text>
             </View>
+
+            </ScrollView>
         
         </View>
     );
@@ -110,6 +145,15 @@ const styles = StyleSheet.create({
         color: "fff",
         fontSize: 30,
         textAlign: "center",
+    },
+    areaLimpar:{
+        marginTop: 10,
+        width: 785,
+    },
+    texto:{
+        textAlign: "center",
+        fontSize: 15,
+        color: "#aff",
     },
 });
 
